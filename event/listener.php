@@ -140,6 +140,7 @@ class listener implements EventSubscriberInterface
 
 		if (isset($route))
 		{
+			$event['session_id'] = '';
 			$event['append_sid_overwrite'] = str_replace('/app.' . $this->php_ext, '', $route);
 		}
 	}
