@@ -1,0 +1,15 @@
+simpleseo_url_forum:
+    pattern: /{forum_name}{forum_id}/
+    defaults: { _controller: carlo94it.simpleseo.rewriter:forum }
+    requirements:
+        forum_name:  ([a-z0-9_-]*-f)
+        forum_id:    \d+
+
+simpleseo_url_topic:
+    pattern: /{forum_name}{forum_id}/{topic_title}{topic_id}.html
+    defaults: { _controller: carlo94it.simpleseo.rewriter:topic }
+    requirements:
+        forum_name:  ([a-z0-9_-]*-f)
+        forum_id:    \d+
+        topic_title: ([a-z0-9_-]*-t)
+        topic_id:    \d+

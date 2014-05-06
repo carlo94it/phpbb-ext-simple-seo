@@ -1,0 +1,20 @@
+services:
+    carlo94it.simpleseo.rewriter:
+        class: carlo94it\simpleseo\controller\rewriter
+        arguments:
+            - @dbal.conn
+            - @request
+            - @controller.helper
+            - %core.root_path%
+            - %core.php_ext%
+
+    carlo94it.simpleseo.listener:
+        class: carlo94it\simpleseo\event\listener
+        arguments:
+            - @dbal.conn
+            - @request
+            - @controller.helper
+            - %core.root_path%
+            - %core.php_ext%
+        tags:
+            - { name: event.listener }
