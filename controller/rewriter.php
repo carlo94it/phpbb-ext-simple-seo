@@ -88,63 +88,54 @@ class rewriter
 		);
 	}
 
-	public function generate_forum_url($forum_id)
+	public function generate_url($params, $type)
 	{
-		$sql = 'SELECT forum_id, forum_name
-			FROM ' . FORUMS_TABLE . '
-			WHERE forum_id = ' . $forum_id;
+		if ($type == 'forum')
+		{
+			$sql = 'SELECT forum_id, forum_name
+				FROM ' . FORUMS_TABLE . '
+				WHERE forum_id = ' . $params['forum_id'];
+		}
+		else if ($type == 'topic')
+		{
+			$sql = 'SELECT t.topic_id, t.topic_title, f.forum_id, f.forum_name
+				FROM
+					' . FORUMS_TABLE . ' f,
+					' . TOPICS_TABLE . ' t
+				WHERE
+					t.topic_id = ' . $params['topic_id'] . ' AND f.forum_id = t.forum_id';
+		}
+		else if ($type == 'post')
+		{
+			$sql = 'SELECT p.post_id, t.topic_id, t.topic_title, f.forum_id, f.forum_name
+				FROM
+					' . FORUMS_TABLE . ' f,
+					' . TOPICS_TABLE . ' t,
+					' . POSTS_TABLE . ' p
+				WHERE
+					p.post_id = ' . $params['post_id'] . ' AND t.topic_id = p.topic_id AND f.forum_id = t.forum_id';
+		}
 
 		$result = $this->db->sql_query($sql);
 		$row = $this->db->sql_fetchrow($result);
 		$this->db->sql_freeresult($result);
 
-		return $this->helper->route('simpleseo_url_forum', array(
-			'forum_name'	=> $this->format_title_url($row['forum_name'], 'forum'),
-			'forum_id'		=> (int) $row['forum_id'],
-		));
-	}
-
-	public function generate_topic_url($topic_id)
-	{
-		$sql = 'SELECT t.topic_id, t.topic_title, f.forum_id, f.forum_name
-			FROM
-				' . FORUMS_TABLE . ' f,
-				' . TOPICS_TABLE . ' t
-			WHERE
-				t.topic_id = ' . $topic_id . ' AND f.forum_id = t.forum_id';
-
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-
-		return $this->helper->route('simpleseo_url_topic', array(
-			'forum_name'	=> $this->format_title_url($row['forum_name'], 'forum'),
-			'forum_id'		=> (int) $row['forum_id'],
-			'topic_title'	=> $this->format_title_url($row['topic_title'], 'topic'),
-			'topic_id'		=> (int) $row['topic_id'],
-		));
-	}
-
-	public function generate_post_url($post_id)
-	{
-		$sql = 'SELECT p.post_id, t.topic_id, t.topic_title, f.forum_id, f.forum_name
-			FROM
-				' . FORUMS_TABLE . ' f,
-				' . TOPICS_TABLE . ' t,
-				' . POSTS_TABLE . ' p
-			WHERE
-				p.post_id = ' . $post_id . ' AND t.topic_id = p.topic_id AND f.forum_id = t.forum_id';
-
-		$result = $this->db->sql_query($sql);
-		$row = $this->db->sql_fetchrow($result);
-		$this->db->sql_freeresult($result);
-
-		return $this->helper->route('simpleseo_url_topic', array(
-			'forum_name'	=> $this->format_title_url($row['forum_name'], 'forum'),
-			'forum_id'		=> (int) $row['forum_id'],
-			'topic_title'	=> $this->format_title_url($row['topic_title'], 'topic'),
-			'topic_id'		=> (int) $row['topic_id'],
-		));
+		if ($type == 'forum')
+		{
+			return $this->helper->route('simpleseo_url_forum', array(
+				'forum_name'	=> $this->format_title_url($row['forum_name'], 'forum'),
+				'forum_id'		=> (int) $row['forum_id'],
+			));
+		}
+		else if ($type == 'topic' || $type == 'post')
+		{
+			return $this->helper->route('simpleseo_url_topic', array(
+				'forum_name'	=> $this->format_title_url($row['forum_name'], 'forum'),
+				'forum_id'		=> (int) $row['forum_id'],
+				'topic_title'	=> $this->format_title_url($row['topic_title'], 'topic'),
+				'topic_id'		=> (int) $row['topic_id'],
+			));
+		}
 	}
 
 	protected function format_title_url($title, $type = '')

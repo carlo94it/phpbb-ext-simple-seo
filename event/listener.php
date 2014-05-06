@@ -113,7 +113,9 @@ class listener implements EventSubscriberInterface
 		{
 			$forum_id = (int) $params['f'];
 
-			$route = $this->rewriter->generate_forum_url($forum_id);
+			$route = $this->rewriter->generate_url(array(
+				'forum_id'	=> $forum_id,
+			), 'forum');
 		}
 
 		if ($path == 'viewtopic.' . $this->php_ext)
@@ -122,13 +124,17 @@ class listener implements EventSubscriberInterface
 			{
 				$post_id = (int) $params['p'];
 
-				$route = $this->rewriter->generate_post_url($post_id);
+				$route = $this->rewriter->generate_url(array(
+					'post_id'	=> $post_id,
+				), 'post');
 			}
 			else if (isset($params['t']))
 			{
 				$topic_id = (int) $params['t'];
 
-				$route = $this->rewriter->generate_topic_url($topic_id);
+				$route = $this->rewriter->generate_url(array(
+					'topic_id'	=> $topic_id,
+				), 'topic');
 			}
 		}
 
