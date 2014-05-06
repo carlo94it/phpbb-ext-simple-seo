@@ -1,4 +1,4 @@
-# SEO Search Tags
+# Simple SEO
 
 Simple SEO is an Extension for phpBB 3.1.
 
