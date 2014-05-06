@@ -1,11 +1,11 @@
 {
 	"name": "carlo94it/simpleseo",
 	"type": "phpbb-extension",
-	"description": "A simple URL rewriter extension for generate URL SEO friendly",
+	"description": "A simple URL rewriter extension for generate SEO friendly URLs",
 	"homepage": "https://github.com/carlo94it/phpbb-ext-simple-seo",
 	"version": "1.0.0-dev",
-	"time": "2014-06-05",
-	"licence": "GPL-2.0",
+	"time": "2014-05-06",
+	"license": "GPL-2.0",
 	"authors": [
 		{
 			"name": "Carlo",
