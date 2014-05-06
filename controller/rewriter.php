@@ -88,6 +88,13 @@ class rewriter
 		);
 	}
 
+	/**
+	 * Friendly URL Generator
+	 *
+	 * @param array		$params Input params of URL to generate
+	 * @param string	$type	Type of URL to generate
+	 * @return string
+	 */
 	public function generate_url($params, $type)
 	{
 		if ($type == 'forum')
@@ -138,6 +145,13 @@ class rewriter
 		}
 	}
 
+	/**
+	 * Format titles for URLs
+	 *
+	 * @param string	$title	Title to format
+	 * @param string	$type	Type of format for suffix
+	 * @return string
+	 */
 	protected function format_title_url($title, $type = '')
 	{
 		$title = utf8_recode($title, 'iso-8859-1');
